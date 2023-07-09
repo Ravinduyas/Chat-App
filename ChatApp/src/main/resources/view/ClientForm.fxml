@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="pane" prefHeight="528.0" prefWidth="554.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ScrollPane fx:id="scrollPain" layoutX="17.0" layoutY="61.0" prefHeight="406.0" prefWidth="520.0">
+            <content>
+                <VBox fx:id="vBox" prefHeight="391.0" prefWidth="503.0" />
+            </content>
+        </ScrollPane>
+        <JFXTextField fx:id="txtMsg" layoutX="55.0" layoutY="480.0" onAction="#txtMsgOnAction" prefHeight="26.0" prefWidth="390.0" />
+        <JFXButton contentDisplay="GRAPHIC_ONLY" layoutX="482.0" layoutY="476.0" onAction="#sendButtonOnAction" prefHeight="26.0" prefWidth="29.0">
+            <graphic>
+                <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/send-icon.png" />
+                    </image>
+               <effect>
+                  <Reflection />
+               </effect>
+                </ImageView>
+            </graphic></JFXButton>
+        <Text fx:id="txtLabel" fontSmoothingType="LCD" layoutX="138.0" layoutY="39.0" lineSpacing="1.0" opacity="0.51" stroke="#070707" strokeType="OUTSIDE" strokeWidth="0.0" text="Client" textAlignment="CENTER" wrappingWidth="293.9999899864197">
+            <font>
+                <Font name="Bell MT Bold" size="20.0" />
+            </font>
+         <effect>
+            <Bloom>
+               <input>
+                  <Reflection />
+               </input>
+            </Bloom>
+         </effect>
+        </Text>
+        <JFXButton fx:id="emojiButton" contentDisplay="GRAPHIC_ONLY" layoutX="438.0" layoutY="476.0" prefHeight="34.0" prefWidth="37.0">
+            <graphic>
+                <ImageView fitHeight="26.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/emoji-icon.png" />
+                    </image>
+               <effect>
+                  <Reflection />
+               </effect>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <JFXButton contentDisplay="GRAPHIC_ONLY" layoutX="17.0" layoutY="476.0" onAction="#attachedButtonOnAction" prefHeight="34.0" prefWidth="18.0" text="Button">
+            <graphic>
+                <ImageView fitHeight="21.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/attachment-icon.png" />
+                    </image>
+               <effect>
+                  <Reflection />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="CROSSHAIR" />
+               </cursor>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+      <ImageView fitHeight="54.0" fitWidth="54.0" layoutX="33.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
+    </children>
+</AnchorPane>

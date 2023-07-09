@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="203.0" prefWidth="555.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginFormController">
+   <children>
+      <JFXTextField fx:id="txtName" layoutX="213.0" layoutY="79.0" prefHeight="29.0" prefWidth="286.0" />
+      <Text layoutX="42.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Your Name :">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Text>
+      <JFXButton layoutX="453.0" layoutY="143.0" onAction="#logInButtonOnAction" prefHeight="30.0" prefWidth="62.0" style="-fx-background-color: #07b9f4;" text="LogIn" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

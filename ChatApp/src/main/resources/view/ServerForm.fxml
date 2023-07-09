@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="pane" prefHeight="487.0" prefWidth="463.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ServerFormController">
+   <children>
+      <JFXButton contentDisplay="GRAPHIC_ONLY" layoutX="395.0" layoutY="14.0" onAction="#addButtonOnAction" prefHeight="34.0" prefWidth="18.0" text="Button">
+         <graphic>
+            <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/add-icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <ScrollPane fx:id="scrollPain" layoutX="18.0" layoutY="66.0" prefHeight="406.0" prefWidth="428.0">
+         <content>
+            <VBox fx:id="vBox" prefHeight="403.0" prefWidth="425.0" style="-fx-background-color: #20efff;" />
+         </content>
+      </ScrollPane>
+      <Text layoutX="87.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Server" textAlignment="CENTER" wrappingWidth="292.240234375">
+         <font>
+            <Font name="Bell MT Bold" size="20.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
