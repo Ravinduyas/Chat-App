@@ -18,20 +18,73 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import server.Server;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class ServerFormController {
     public VBox vBox;
     public ScrollPane scrollPain;
     public AnchorPane pane;
 
+    private Server server;
+    private static VBox staticVBox;
 
     public void initialize(){
+        staticVBox = vBox;
+        receiveMessage("Sever Starting..");
+        vBox.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                scrollPain.setVvalue((Double) newValue);
+            }
+        });
 
+        new Thread(() -> {
+            try {
+                server = Server.getInstance();
+                server.makeSocket();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        receiveMessage("Sever Running..");
+        receiveMessage("Waiting for User..");
     }
 
+    private void sendMsg(String msgToSend) {
+        if (!msgToSend.isEmpty()){
+            HBox hBox = new HBox();
+            hBox.setAlignment(Pos.CENTER_RIGHT);
+            hBox.setPadding(new Insets(5,5,0,10));
 
+            Text text = new Text(msgToSend);
+            text.setStyle("-fx-font-size: 14");
+            TextFlow textFlow = new TextFlow(text);
+
+//            #0693e3 #37d67a #40bf75
+            textFlow.setStyle("-fx-background-color: #0693e3; -fx-font-weight: bold; -fx-color: white; -fx-background-radius: 20px");
+            textFlow.setPadding(new Insets(5,10,5,10));
+            text.setFill(Color.color(1,1,1));
+
+            hBox.getChildren().add(textFlow);
+
+            HBox hBoxTime = new HBox();
+            hBoxTime.setAlignment(Pos.CENTER_RIGHT);
+            hBoxTime.setPadding(new Insets(0,5,5,10));
+            String stringTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+            Text time = new Text(stringTime);
+            time.setStyle("-fx-font-size: 8");
+
+            hBoxTime.getChildren().add(time);
+
+            vBox.getChildren().add(hBox);
+            vBox.getChildren().add(hBoxTime);
+        }
+    }
 
     public static void receiveMessage(String msgFromClient){
         HBox hBox = new HBox();
@@ -46,6 +99,12 @@ public class ServerFormController {
 
         hBox.getChildren().add(textFlow);
 
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                staticVBox.getChildren().add(hBox);
+            }
+        });
     }
 
     public void addButtonOnAction(ActionEvent actionEvent) throws IOException {
@@ -58,7 +117,7 @@ public class ServerFormController {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR,"something went wrong. can't add client").show();
         }
-        stage.setTitle("Group Chat");
+        stage.setTitle("EChat");
         stage.centerOnScreen();
         stage.setResizable(false);
         stage.show();

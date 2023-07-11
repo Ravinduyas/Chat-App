@@ -27,16 +27,17 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class ClientFormController {
+    public AnchorPane pane;
     public ScrollPane scrollPain;
     public VBox vBox;
     public JFXTextField txtMsg;
     public Text txtLabel;
+    public JFXButton emojiButton;
 
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
-
-    private String clientName = "client";
+    private String clientName = "Client";
 
     public void initialize(){
         txtLabel.setText(clientName);
@@ -48,7 +49,7 @@ public class ClientFormController {
                     socket = new Socket("localhost", 3001);
                     dataInputStream = new DataInputStream(socket.getInputStream());
                     dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                    System.out.println("client connected");
+                    System.out.println("Client connected");
                     ServerFormController.receiveMessage(clientName+" joined.");
 
                     while (socket.isConnected()){
@@ -68,10 +69,48 @@ public class ClientFormController {
             }
         });
 
-
+        emoji();
 
     }
 
+    public void shutdown() {
+        // cleanup code here...
+        ServerFormController.receiveMessage(clientName+" left.");
+    }
+
+    private void emoji() {
+        // Create the EmojiPicker
+        EmojiPicker emojiPicker = new EmojiPicker();
+
+        VBox vBox = new VBox(emojiPicker);
+        vBox.setPrefSize(150,300);
+        vBox.setLayoutX(400);
+        vBox.setLayoutY(175);
+        vBox.setStyle("-fx-font-size: 30");
+
+        pane.getChildren().add(vBox);
+
+        // Set the emoji picker as hidden initially
+        emojiPicker.setVisible(false);
+
+        // Show the emoji picker when the button is clicked
+        emojiButton.setOnAction(event -> {
+            if (emojiPicker.isVisible()){
+                emojiPicker.setVisible(false);
+            }else {
+                emojiPicker.setVisible(true);
+            }
+        });
+
+        // Set the selected emoji from the picker to the text field
+        emojiPicker.getEmojiListView().setOnMouseClicked(event -> {
+            String selectedEmoji = emojiPicker.getEmojiListView().getSelectionModel().getSelectedItem();
+            if (selectedEmoji != null) {
+                txtMsg.setText(txtMsg.getText()+selectedEmoji);
+            }
+            emojiPicker.setVisible(false);
+        });
+    }
 
     public void txtMsgOnAction(ActionEvent actionEvent) {
         sendButtonOnAction(actionEvent);
@@ -122,6 +161,27 @@ public class ClientFormController {
 
                 txtMsg.clear();
             }
+        }
+    }
+
+    private void sendImage(String msgToSend) {
+        Image image = new Image(msgToSend);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(200);
+//        TextFlow textFlow = new TextFlow(imageView);
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(5,5,5,10));
+        hBox.getChildren().add(imageView);
+        hBox.setAlignment(Pos.CENTER_RIGHT);
+
+        vBox.getChildren().add(hBox);
+
+        try {
+            dataOutputStream.writeUTF(clientName + "-" +msgToSend);
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -181,8 +241,17 @@ public class ClientFormController {
         }
     }
 
+    public void attachedButtonOnAction(ActionEvent actionEvent) {
+        FileDialog dialog = new FileDialog((Frame)null, "Select File to Open");
+        dialog.setMode(FileDialog.LOAD);
+        dialog.setVisible(true);
+        String file = dialog.getDirectory()+dialog.getFile();
+        dialog.dispose();
+        sendImage(file);
+        System.out.println(file + " chosen.");
+    }
+
     public void setClientName(String name) {
         clientName = name;
     }
-
 }

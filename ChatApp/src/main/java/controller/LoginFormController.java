@@ -27,12 +27,16 @@ public class LoginFormController {
 
             primaryStage.setScene(new Scene(fxmlLoader.load()));
             primaryStage.setTitle(txtName.getText());
+            primaryStage.setResizable(false);
             primaryStage.centerOnScreen();
+            primaryStage.setOnCloseRequest(windowEvent -> {
+                controller.shutdown();
+            });
             primaryStage.show();
 
             txtName.clear();
         }else{
-            new Alert(Alert.AlertType.ERROR, "null!").show();
+            new Alert(Alert.AlertType.ERROR, "Please enter your name").show();
         }
     }
 }
